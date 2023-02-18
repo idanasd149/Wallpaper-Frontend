@@ -12,6 +12,7 @@ function App() {
   const [showText, setShowText] = useState(false);
   const textRef = useRef(null);
   const [fileSelected, setFileSelected] = useState(false);
+  const [faceModelOn, setFaceModelOn] = useState(false);
 
   const handleClick = () => {
     setShowText(true);
@@ -43,6 +44,7 @@ function App() {
     const formData = new FormData();
     formData.append("image", file);
     names.forEach((name) => formData.append("names", name.replace(/ /g, "")));
+    formData.append("face_model_on", faceModelOn);
 
     const response = await fetch("http://127.0.0.1:5000/generate", {
       method: "POST",
@@ -115,6 +117,14 @@ function App() {
               />
             </div>
           ))}
+        </div>
+        <div className="App-button-faces">
+          <button
+            onClick={() => setFaceModelOn((prevState) => !prevState)}
+            className={faceModelOn ? "on" : "off"}
+          >
+            {faceModelOn ? "Face Model ON" : "Face Model OFF"}
+          </button>
         </div>
         <div className="App-generate">
           <button type="button" onClick={handleGenerateClick}>
